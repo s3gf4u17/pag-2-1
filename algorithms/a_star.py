@@ -1,5 +1,6 @@
 import math
 
+import geopandas as gpd
 from shapely.geometry import Point
 
 from algorithms.reconstruct_path import reconstruct_path
@@ -17,17 +18,17 @@ def heuristic(curr_pnt: Node, end_pnt: Node):
 
 
 def heuristic_geo(curr_pnt: Node, end_pnt: Node):
-    current_point = Point(curr_pnt.x, curr_pnt.y)
-    end_point = Point(end_pnt.x, end_pnt.y)
-    return current_point.distance(end_point)
+    current_point = gpd.GeoSeries([Point(curr_pnt.x, curr_pnt.y)], crs="EPSG:2180")
+    end_point = gpd.GeoSeries([Point(end_pnt.x, end_pnt.y)], crs="EPSG:2180")
+    return current_point.distance(end_point).item()
 
 
 def a_star(start_id: int, end_id: int, graph: Graph):
     considered = PriorityQueue()
-    came_from: dict[int, int] = {}
+    came_from: dict[int, (int, int)] = {}
 
     graph.nodes[start_id].g = 0
-    graph.nodes[start_id].f = heuristic(graph.nodes[start_id], graph.nodes[end_id])
+    graph.nodes[start_id].f = heuristic_geo(graph.nodes[start_id], graph.nodes[end_id])
     came_from[start_id] = -1
     considered.put(start_id, graph.nodes[start_id].f)
 
@@ -43,10 +44,10 @@ def a_star(start_id: int, end_id: int, graph: Graph):
             new_cost = graph.nodes[curr_id].g + graph.edges[edge_id].weight
 
             if next_id not in came_from or new_cost < graph.nodes[next_id].g:
-                came_from[next_id] = curr_id
+                came_from[next_id] = (curr_id, edge_id)
                 graph.nodes[next_id].g = new_cost
-                graph.nodes[next_id].f = new_cost + heuristic(graph.nodes[next_id], graph.nodes[end_id])
-                # print(f"Adding - from {curr_id} to {next_id}, with cost {new_cost} and heuristic {heuristic(graph.nodes[next_id], graph.nodes[end_id])}")
+                graph.nodes[next_id].f = new_cost + heuristic_geo(graph.nodes[next_id], graph.nodes[end_id])
+                # print(f"Adding - from {curr_id} to {next_id}, with cost {new_cost} and heuristic {heuristic_geo(graph.nodes[next_id], graph.nodes[end_id])}")
                 considered.put(next_id, graph.nodes[next_id].f)
 
     return reconstruct_path(came_from, start_id, end_id)
