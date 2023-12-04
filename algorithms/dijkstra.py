@@ -8,7 +8,7 @@ def dijkstra(start_id: int, end_id: int, graph: Graph):
     came_from: dict[int, (int, int)] = {}
 
     graph.nodes[start_id].g = 0
-    came_from[start_id] = -1
+    came_from[start_id] = [-1]
     considered.put(start_id, graph.nodes[start_id].g)
 
     while not considered.empty():
@@ -20,10 +20,12 @@ def dijkstra(start_id: int, end_id: int, graph: Graph):
 
         for edge_id in graph.nodes[curr_id].neighbors:
             next_id = graph.edges[edge_id].end_node
+            if curr_id == next_id:
+                next_id = graph.edges[edge_id].start_node
             new_cost = graph.nodes[curr_id].g + graph.edges[edge_id].weight
 
             if next_id not in came_from or new_cost < graph.nodes[next_id].g:
-                came_from[next_id] = (curr_id, edge_id)
+                came_from[next_id] = [curr_id, edge_id]
                 graph.nodes[next_id].g = new_cost
                 # print(f"Adding - from {curr_id} to {next_id}, with cost {new_cost}")
                 considered.put(next_id, new_cost)

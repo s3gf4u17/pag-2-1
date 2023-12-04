@@ -29,7 +29,7 @@ def a_star(start_id: int, end_id: int, graph: Graph):
 
     graph.nodes[start_id].g = 0
     graph.nodes[start_id].f = heuristic_geo(graph.nodes[start_id], graph.nodes[end_id])
-    came_from[start_id] = -1
+    came_from[start_id] = [-1]
     considered.put(start_id, graph.nodes[start_id].f)
 
     while not considered.empty():
@@ -41,10 +41,12 @@ def a_star(start_id: int, end_id: int, graph: Graph):
 
         for edge_id in graph.nodes[curr_id].neighbors:
             next_id = graph.edges[edge_id].end_node
+            if curr_id == next_id:
+                next_id = graph.edges[edge_id].start_node
             new_cost = graph.nodes[curr_id].g + graph.edges[edge_id].weight
 
             if next_id not in came_from or new_cost < graph.nodes[next_id].g:
-                came_from[next_id] = (curr_id, edge_id)
+                came_from[next_id] = [curr_id, edge_id]
                 graph.nodes[next_id].g = new_cost
                 graph.nodes[next_id].f = new_cost + heuristic_geo(graph.nodes[next_id], graph.nodes[end_id])
                 # print(f"Adding - from {curr_id} to {next_id}, with cost {new_cost} and heuristic {heuristic_geo(graph.nodes[next_id], graph.nodes[end_id])}")

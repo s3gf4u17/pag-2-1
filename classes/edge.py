@@ -9,6 +9,7 @@ class Edge:
         self.weight = weight
         graph.edges.append(self)
         graph.nodes[start_node].add_neighbor(self.id)
+        graph.nodes[end_node].add_neighbor(self.id)
 
     def __str__(self):
         return f"[{self.id}, {self.start_node}, {self.end_node}, {self.weight}]"

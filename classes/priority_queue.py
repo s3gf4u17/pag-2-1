@@ -1,8 +1,6 @@
 import heapq
 
 
-# from classes.node import Node
-
 class PriorityQueue:
     def __init__(self):
         self.elements: list[tuple[float, int]] = []
