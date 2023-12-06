@@ -1,9 +1,9 @@
-from classes.graph import Graph
+from server.classes.graph import Graph
 
 
 class Node:
-    def __init__(self, graph: Graph, x: float, y: float, neighbors: list[int] = None, f: float = float('inf'),
-                 g: float = float('inf'), id: int = 0):
+    def __init__(self, graph: Graph, x: float, y: float, f: float = float('inf'),
+                 g: float = float('inf'), neighbors: list[int] = None, id: int = 0):
         self.id = len(graph.nodes)
         self.x = x
         self.y = y

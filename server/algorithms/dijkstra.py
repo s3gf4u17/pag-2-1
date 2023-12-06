@@ -1,6 +1,6 @@
-from algorithms.reconstruct_path import reconstruct_path
-from classes.graph import Graph
-from classes.priority_queue import PriorityQueue
+from server.algorithms.reconstruct_path import reconstruct_path
+from server.classes.graph import Graph
+from server.classes.priority_queue import PriorityQueue
 
 
 def dijkstra(start_id: int, end_id: int, graph: Graph):

@@ -5,13 +5,13 @@ from algorithms.dijkstra import dijkstra
 from classes.edge import Edge
 from classes.graph import Graph
 from classes.node import Node
-from shp_utilites import elements_from_shp, create_result_shp, create_nodes_shp, create_edges_shp, create_ends_shp
+from shp_utilites import elements_from_shp, create_result_nodes_shp, create_result_shp, create_nodes_shp, create_edges_shp, create_ends_shp
 
 if __name__ == '__main__':
     # Input
-    shp_path = os.path.abspath("database/geodata/torun_all.shp")
-    start_node = 7007
-    end_node = 1414
+    shp_path = os.path.abspath("database/geodata/test.shp")
+    start_node = 0
+    end_node = 4
 
     # Creating graph
     graph_test = Graph()
@@ -28,8 +28,8 @@ if __name__ == '__main__':
 
     # Creating .shp files with path consisting of separate linestring
     create_ends_shp(nodes, graph_test, start_node, end_node).to_file(f"database/geodata/path_ends_{start_node}_{end_node}.shp")
-    create_result_shp(edges_geometry, path_d).to_file(f"database/geodata/path_big_d_{start_node}_{end_node}.shp")
-    create_result_shp(edges_geometry, path_a).to_file(f"database/geodata/path_big_a_{start_node}_{end_node}.shp")
+    create_result_nodes_shp(nodes, path_d).to_file(f"database/geodata/path_test_d_{start_node}_{end_node}.shp")
+    create_result_nodes_shp(nodes, path_a).to_file(f"database/geodata/path_test_a_{start_node}_{end_node}.shp")
 
     # Creating .shp containing all nodes and edges of the graph
     #create_nodes_shp(nodes, graph_test).to_file(f"database/geodata/all_nodes_big.shp")

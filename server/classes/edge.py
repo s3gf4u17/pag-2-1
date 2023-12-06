@@ -1,4 +1,4 @@
-from classes.graph import Graph
+from server.classes.graph import Graph
 
 
 class Edge:

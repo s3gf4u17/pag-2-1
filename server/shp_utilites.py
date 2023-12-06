@@ -99,3 +99,12 @@ def create_result_shp(edges_geometry: list, path_parts: list):
     # path_geo = linemerge(path)
     shortest_path = gpd.GeoDataFrame(geometry=path, crs="EPSG:2180")
     return shortest_path
+
+def create_result_nodes_shp(nodes_geometry: list, path_parts: list):
+    path = []
+    for winning_node in path_parts:
+        path.append(Point(nodes_geometry[winning_node][0],nodes_geometry[winning_node][1]))
+
+    # path_geo = linemerge(path)
+    shortest_path = gpd.GeoDataFrame(geometry=path, crs="EPSG:2180")
+    return shortest_path
