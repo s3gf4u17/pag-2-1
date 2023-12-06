@@ -58,6 +58,23 @@ for i in range(0,len(node_pes)-1):
                 if edges_raw[x][1]==node_ids[j]: edges_raw[x][1]=node_ids[i]
 print("DONE")
 
+# remove unused nodes from 'rnodes'
+print("removing unused nodes ",end="")
+used_nodes=set()
+for edge in edges_raw:
+    used_nodes.add(edge[0])
+    used_nodes.add(edge[1])
+unused_nodes=[]
+for i in range(0,len(node_ids)):
+    if node_ids[i] in used_nodes: continue
+    unused_nodes.append(i)
+unused_nodes.sort(reverse=True)
+for un in unused_nodes:
+    node_ids.pop(un)
+    node_pes.pop(un)
+    node_pws.pop(un)
+print("DONE")
+
 print("saving nodes ",end="")
 with open("rnodes","w+") as file:
     for i in range(0,len(node_ids)):
@@ -69,5 +86,21 @@ with open("redges","w+") as file:
     for i in range(0,len(edges_raw)):
         node_id1 = node_ids.index(edges_raw[i][0])
         node_id2 = node_ids.index(edges_raw[i][1])
-        file.write(str(node_id1)+","+str(node_id2)+","+str(edges_raw[i][2])+","+edges_raw[i][0].split("_")[1]+"\n")
+        dlugoscDrogi = edges_raw[i][2]
+        rclass = edges_raw[i][0].split("_")[1]
+        speed_limit = 140
+        if rclass == "S":  # ekspresowa
+            speed_limit = 130
+        elif rclass == "GP":  # główna ruchu przyspieszonego
+            speed_limit = 110
+        elif rclass == "G":  # główna
+            speed_limit = 100
+        elif rclass == "Z":  # zbiorcza
+            speed_limit = 80
+        elif rclass == "L":  # lokalna
+            speed_limit = 60
+        elif rclass == "D":  # zbiorcza
+            speed_limit = 30
+        czasDrogi = dlugoscDrogi/speed_limit
+        file.write(str(node_id1)+","+str(node_id2)+","+str(dlugoscDrogi)+","+str(czasDrogi)+"\n")
 print("DONE")
