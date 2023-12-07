@@ -56,3 +56,7 @@
   .leaflet-touch .leaflet-control-attribution a {
     color: var(--text);
   }
+
+img.huechange {
+  filter: hue-rotate(120deg);
+}

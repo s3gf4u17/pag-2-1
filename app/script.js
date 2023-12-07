@@ -1,3 +1,27 @@
+markers = []
+
+function setPointCoordinates(event,map,id) {
+    new_markers = []
+    markers.forEach(function(marker) {
+        if (marker._id==id) map.removeLayer(marker);
+        else new_markers.push(marker);
+    })
+    markers = new_markers
+    var marker = L.marker(event.latlng);
+    marker._id = id
+    test = map.addLayer(marker);
+    marker._icon.classList.add("huechange");
+    markers.push(marker);
+}
+
+// function(e) {
+//     var location = e.latlng;
+//     var marker = L.marker(location).addTo(map);
+//     marker._icon.classList.add("huechange");
+//     // var popup = L.popup().setLatLng(location).setContent('<p>A</p>').openOn(map);
+//     console.log("left click: ",location);
+// }
+
 function fetchVectorLayer(LC,input_layer,name){
     var color = getComputedStyle(document.documentElement).getPropertyValue('--accent');
     var layer = L.geoJSON(input_layer,{
@@ -25,8 +49,8 @@ L.Control.Test = L.Control.extend({
         var parent = document.getElementById("map");
         var container = L.DomUtil.create("div","leaflet-control-layers leaflet-control-layers-expanded leaflet-control",parent);
         container.innerHTML = "<span class='title'>Geoportal - Wyznaczanie trasy</span></br>";
-        container.innerHTML += "<span class='info'>1. Lewym przyciskiem myszy zaznacz punkt startowy.</span></br>";
-        container.innerHTML += "<span class='info'>2. Prawym przyciskiem myszy zaznacz punkt końcowy.</span></br>";
+        container.innerHTML += "<span class='info'>1. Lewym przyciskiem myszy zaznacz <b style='color:deeppink'>punkt startowy</b>.</span></br>";
+        container.innerHTML += "<span class='info'>2. Prawym przyciskiem myszy zaznacz <b style='color:dodgerblue'>punkt końcowy.</b></span></br>";
         container.innerHTML += "<span class='info'>3. Program wyznaczy trasę najkrótszą, najszybszą i alternatywną.</span>";
     }
 });
@@ -38,5 +62,13 @@ function renderApp() {
     var test = new L.Control.Test("12",{position:"topleft"});
     L.control.scale({"position":"bottomleft"}).addTo(map);
     L.control.zoom({"position":"bottomleft"}).addTo(map);
+    map.on('click',function (e) {setPointCoordinates(e,map,'left-click')});
+    map.on('contextmenu',function(e) {
+        var location = e.latlng;
+        var marker = L.marker(location).addTo(map);
+        // var popup = L.popup().setLatLng(location).setContent('<p>B</p>').openOn(map);
+        console.log("right click: ",location);
+    });
     test.addTo(map);
 }
+
