@@ -20,11 +20,11 @@ if __name__ == '__main__':
         Node(graph_test, float(node[0]), float(node[1]))
 
     for edge in edges:
-        Edge(graph_test, int(edge[0]), int(edge[1]), float(edge[2]))
+        Edge(graph_test, int(edge[0]), int(edge[1]), float(edge[2]), float(edge[3]))
 
     # Calculating paths using appropriate algorithms
-    path_d = dijkstra(start_node, end_node, graph_test)
-    path_a = a_star(start_node, end_node, graph_test)
+    path_d = dijkstra(start_node, end_node, graph_test, False)
+    path_a = a_star(start_node, end_node, graph_test, False)
 
     # Creating .shp files with path consisting of separate linestring
     create_ends_shp(nodes, graph_test, start_node, end_node).to_file(f"database/geodata/path_ends_{start_node}_{end_node}.shp")

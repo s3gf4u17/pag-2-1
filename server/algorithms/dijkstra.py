@@ -3,7 +3,7 @@ from server.classes.graph import Graph
 from server.classes.priority_queue import PriorityQueue
 
 
-def dijkstra(start_id: int, end_id: int, graph: Graph):
+def dijkstra(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool):
     considered = PriorityQueue()
     came_from: dict[int, (int, int)] = {}
 
@@ -22,7 +22,14 @@ def dijkstra(start_id: int, end_id: int, graph: Graph):
             next_id = graph.edges[edge_id].end_node
             if curr_id == next_id:
                 next_id = graph.edges[edge_id].start_node
-            new_cost = graph.nodes[curr_id].g + graph.edges[edge_id].weight
+
+            new_weight: float
+            if use_weight_slimit:
+                new_weight = graph.edges[edge_id].weight_slimit
+            else:
+                new_weight = graph.edges[edge_id].weight
+
+            new_cost = graph.nodes[curr_id].g + new_weight
 
             if next_id not in came_from or new_cost < graph.nodes[next_id].g:
                 came_from[next_id] = [curr_id, edge_id]
