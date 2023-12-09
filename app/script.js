@@ -61,13 +61,13 @@ L.Control.Test = L.Control.extend({
         container.innerHTML = "<span class='title'>Geoportal - Wyznaczanie trasy</span></br>";
         container.innerHTML += "<span class='info'>1. Lewym przyciskiem myszy zaznacz <b style='color:deeppink'>punkt startowy</b>.</span></br>";
         container.innerHTML += "<span class='info'>2. Prawym przyciskiem myszy zaznacz <b style='color:dodgerblue'>punkt końcowy.</b></span></br>";
-        container.innerHTML += "<span class='info'>3. Program wyznaczy trasę najkrótszą, najszybszą i alternatywną.</span>";
+        container.innerHTML += "<span class='info'>3. Program wyznaczy trasę <b style='color:#bc5090'>najkrótszą</b>, <b style='color:#ff6361'>najszybszą</b> i <b style='color:#ffa600'>alternatywną</b>.</span>";
     }
 });
 
 function renderApp() {
-    var map = L.map('map',{maxZoom:14,"zoomControl":false}).setView([53.0138,18.5984],12);
-    var background = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',{maxZoom:50,attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
+    var map = L.map('map',{maxZoom:19,"zoomControl":false}).setView([53.0138,18.5984],13);
+    var background = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
     background.addTo(map);
     var test = new L.Control.Test("12",{position:"topleft"});
     L.control.scale({"position":"bottomleft"}).addTo(map);
