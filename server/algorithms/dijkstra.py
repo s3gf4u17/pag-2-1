@@ -1,9 +1,11 @@
 from server.algorithms.reconstruct_path import reconstruct_path
+from server.algorithms.alter_weight import increase_weight, decrease_weight
 from server.classes.graph import Graph
 from server.classes.priority_queue import PriorityQueue
 
 
-def dijkstra(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool):
+def dijkstra(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool, edges_went_through=None):
+    increase_weight(graph, edges_went_through)
     considered = PriorityQueue()
     came_from: dict[int, (int, int)] = {}
 
@@ -37,4 +39,5 @@ def dijkstra(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool):
                 # print(f"Adding - from {curr_id} to {next_id}, with cost {new_cost}")
                 considered.put(next_id, new_cost)
 
+    decrease_weight(graph, edges_went_through)
     return reconstruct_path(came_from, start_id, end_id)

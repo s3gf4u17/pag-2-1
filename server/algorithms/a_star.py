@@ -4,6 +4,8 @@ import geopandas as gpd
 from shapely.geometry import Point
 
 from server.algorithms.reconstruct_path import reconstruct_path
+from server.algorithms.alter_weight import increase_weight, decrease_weight
+
 from server.classes.graph import Graph
 from server.classes.node import Node
 from server.classes.priority_queue import PriorityQueue
@@ -23,7 +25,8 @@ def heuristic_geo(curr_pnt: Node, end_pnt: Node):
     return current_point.distance(end_point).item()
 
 
-def a_star(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool):
+def a_star(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool, edges_went_through=None):
+    increase_weight(graph, edges_went_through)
     considered = PriorityQueue()
     came_from: dict[int, (int, int)] = {}
 
@@ -59,4 +62,5 @@ def a_star(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool):
                 # print(f"Adding - from {curr_id} to {next_id}, with cost {new_cost} and heuristic {heuristic_geo(graph.nodes[next_id], graph.nodes[end_id])}")
                 considered.put(next_id, graph.nodes[next_id].f)
 
+    decrease_weight(graph, edges_went_through)
     return reconstruct_path(came_from, start_id, end_id)
