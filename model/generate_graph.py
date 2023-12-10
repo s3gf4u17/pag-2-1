@@ -13,6 +13,7 @@ print("parsing gdf ",end="")
 # extract points from shapefile
 for index,row in gdf.iterrows():
     for index,point in enumerate(row["geometry"].coords):
+        if index!=0 and index!=len(row["geometry"].coords)-1: continue # comment this line to get a high precision graph (linestring exploded into points)
         node_ids.append(row["idIIP_BT_I"]+"_"+row["klasaDrogi"]+"_"+str(index))
         node_pes.append([round(point[0],1),round(point[1],1)])
 print("DONE")
@@ -30,6 +31,7 @@ for index,row in enumerate(geojson["features"]):
     linestringID = row["properties"]["idIIP_BT_I"]
     linestringKD = row["properties"]["klasaDrogi"]
     for index,point in enumerate(row["geometry"]["coordinates"][0]):
+        if index!=0 and index!=len(row["geometry"]["coordinates"][0])-1: continue # comment this line to get a high precision graph (linestring exploded into points)
         pointer = node_ids.index(linestringID+"_"+linestringKD+"_"+str(index))
         node_pws[pointer] = [round(point[0],6),round(point[1],6)]
 print("DONE")
@@ -41,9 +43,9 @@ for i in range(0,len(node_ids)-1):
     linestringid1 = node_ids[i].split("_")[0]
     linestringid2 = node_ids[i+1].split("_")[0]
     if linestringid1 != linestringid2: continue
-    index1 = int(node_ids[i].split("_")[2])
-    index2 = int(node_ids[i+1].split("_")[2])
-    if abs(index1-index2)!=1: continue
+    # index1 = int(node_ids[i].split("_")[2])
+    # index2 = int(node_ids[i+1].split("_")[2])
+    # if abs(index1-index2)!=1: continue
     length = math.sqrt(pow(node_pes[i][0]-node_pes[i+1][0],2)+pow(node_pes[i][1]-node_pes[i+1][1],2))
     edges_raw.append([node_ids[i],node_ids[i+1],length])
 print("DONE")
