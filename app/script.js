@@ -1,5 +1,7 @@
 var markers = [];
-var layer = null;
+var layershort = null;
+var layerquick = null;
+var layeralter = null;
 
 function findPath(map) {
     // fetch path geojson
@@ -14,18 +16,35 @@ function findPath(map) {
         })
     };
     // const geojson = fetch("http://127.0.0.1:8000/test_line/",settings)
-    const geojson = fetch("http://127.0.0.1:8000/test_point/",settings)
+    // const geojson = fetch("http://127.0.0.1:8000/test_point/",settings)
+    const geojson = fetch("http://127.0.0.1:8000/find_path/",settings)
     .then(response=>response.json())
     .then(geojson=>{
         console.log(geojson);
-        if (layer!=null) map.removeLayer(layer);
-        layer = L.geoJSON(geojson,{style:{
+        if (layershort!=null) map.removeLayer(layershort);
+        if (layerquick!=null) map.removeLayer(layerquick);
+        if (layeralter!=null) map.removeLayer(layeralter);
+        layershort = L.geoJSON(geojson[0],{style:{
             radius:5,
             opacity:1.2,
-            color:'rgba(0,0,0,1.0)',
+            color:'#bc5090',
             weight: 5.8
         }});
-        map.addLayer(layer);
+        layerquick = L.geoJSON(geojson[1],{style:{
+            radius:5,
+            opacity:1.2,
+            color:'#ff6361',
+            weight: 5.8
+        }});
+        layeralter = L.geoJSON(geojson[2],{style:{
+            radius:5,
+            opacity:1.2,
+            color:'#ffa600',
+            weight: 5.8
+        }});
+        map.addLayer(layershort);
+        map.addLayer(layerquick);
+        map.addLayer(layeralter);
     });
 }
 
