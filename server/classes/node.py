@@ -1,4 +1,4 @@
-from server.classes.graph import Graph
+from classes.graph import Graph
 
 
 class Node:

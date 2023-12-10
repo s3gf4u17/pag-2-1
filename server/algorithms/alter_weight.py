@@ -1,5 +1,5 @@
-from server.classes.graph import Graph
-from server.classes.edge import Edge
+from classes.graph import Graph
+from classes.edge import Edge
 
 
 def increase_weight(graph: Graph, visited: list[int]):

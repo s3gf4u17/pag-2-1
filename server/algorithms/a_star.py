@@ -3,12 +3,12 @@ import math
 import geopandas as gpd
 from shapely.geometry import Point
 
-from server.algorithms.reconstruct_path import reconstruct_path
-from server.algorithms.alter_weight import increase_weight, decrease_weight
+from algorithms.reconstruct_path import reconstruct_path
+from algorithms.alter_weight import increase_weight, decrease_weight
 
-from server.classes.graph import Graph
-from server.classes.node import Node
-from server.classes.priority_queue import PriorityQueue
+from classes.graph import Graph
+from classes.node import Node
+from classes.priority_queue import PriorityQueue
 
 
 def heuristic(curr_pnt: Node, end_pnt: Node):

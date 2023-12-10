@@ -1,7 +1,7 @@
-from server.algorithms.reconstruct_path import reconstruct_path
-from server.algorithms.alter_weight import increase_weight, decrease_weight
-from server.classes.graph import Graph
-from server.classes.priority_queue import PriorityQueue
+from algorithms.reconstruct_path import reconstruct_path
+from algorithms.alter_weight import increase_weight, decrease_weight
+from classes.graph import Graph
+from classes.priority_queue import PriorityQueue
 
 
 def dijkstra(start_id: int, end_id: int, graph: Graph, use_weight_slimit: bool, edges_went_through=None):
